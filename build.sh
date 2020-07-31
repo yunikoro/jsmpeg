@@ -99,17 +99,17 @@ cat \
 	src/canvas2d.js \
 	src/webaudio.js \
 	src/wasm-module.js \
-	> jsmpeg.js
+	> ./dist/jsmpeg.js
 
 # Append the .wasm module to the .js source as base64 string
 echo "JSMpeg.WASM_BINARY_INLINED='$(base64 -w 0 jsmpeg.wasm)';" \
-	>> jsmpeg.js
+	>> ./dist/jsmpeg.js
 
 
 # Minify
-uglifyjs jsmpeg.js -o jsmpeg.min.js
+# uglifyjs jsmpeg.js -o jsmpeg.min.js
 
 # Cleanup
-rm jsmpeg.js
+# rm jsmpeg.js
 rm jsmpeg.wasm
 

@@ -1,0 +1,31 @@
+{
+  "name": "jsmpeg",
+  "version": "0.0.1",
+  "description": "a jsmpeg fork",
+  "main": "jsmpeg.min.js",
+  "scripts": {
+    "dev": "webpack-dev-server --inline --progress --config ./webpack.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yunikoro/jsmpeg.git"
+  },
+  "keywords": [
+    "jsmpeg",
+    "emcc",
+    "webAssembly",
+    "canvas",
+    "webgl"
+  ],
+  "author": "huang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yunikoro/jsmpeg/issues"
+  },
+  "homepage": "https://github.com/yunikoro/jsmpeg#readme",
+  "devDependencies": {
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

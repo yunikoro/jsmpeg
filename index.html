@@ -28,11 +28,11 @@
       var url =
         "https://yun.duiba.com.cn/kjy/video/20200608/93f1b41336a8b7a442dbf1c29c6bbc5644ee4632278bd699ee10e96940c5517daa2c7177c487a3eb15cd82474c6871eaf2ff30d248f46a2f2dd54c0c0bab3344.ts";
       var options = {
-        autoplay: true,
-        chunkSize: 1048576,
+        autoplay: false,
+        chunkSize: 1024 * 1024,
         controls: false,
         decodeFirstFrame: true,
-        disableGl: true,
+        disableGl: false,
         disableWebAssembly: false,
         fill: true,
         language: "zh-CN",
@@ -51,8 +51,7 @@
       });
 
       playBtn.onclick = function () {
-        // player.play();
-        player.stop();
+        player.setCurrentTime(25000);
         player.play();
       };
       pauseBtn.onclick = function () {

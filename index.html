@@ -20,9 +20,13 @@
   </head>
   <body>
     <canvas id="video-canvas"></canvas>
+    <div><progress id="prog" max="35"></progress>:loadProcess</div>
+    <div><progress id="played" max="35"></progress>:played</div>
     <button id="play">Play</button>
     <button id="pause">Pause</button>
     <button id="stop">Stop</button>
+    <button id="playon">Play on</button>
+    <input id="sec" type="number" />sec
     <script type="text/javascript" src="dist/jsmpeg.js"></script>
     <script>
       var url =
@@ -39,11 +43,22 @@
         loaded: true,
         loop: false,
         muted: false,
+        onVideoDecode(decoder) {
+          const { timestamps, frameRate } = decoder;
+          const loadTime = timestamps.length / frameRate;
+          // console.log(`loadTime: ${loadTime}, FrameRate: ${frameRate}`);
+          progPro.value = loadTime;
+          playedPro.value = player.currentTime;
+        },
       };
       var Player = window.JSMpeg.Player;
       var playBtn = document.querySelector("#play");
       var pauseBtn = document.querySelector("#pause");
       var stopBtn = document.querySelector("#stop");
+      var progPro = document.querySelector("#prog");
+      var playedPro = document.querySelector("#played");
+      var secIpt = document.querySelector("#sec");
+      var playonBtn = document.querySelector("#playon");
 
       var player = new Player(url, {
         ...options,
@@ -51,7 +66,6 @@
       });
 
       playBtn.onclick = function () {
-        player.setCurrentTime(25000);
         player.play();
       };
       pauseBtn.onclick = function () {
@@ -59,6 +73,11 @@
       };
       stopBtn.onclick = function () {
         player.stop();
+      };
+      playonBtn.onclick = function () {
+        const sec = secIpt.value;
+        player.setCurrentTime(parseFloat(sec));
+        player.play();
       };
     </script>
   </body>

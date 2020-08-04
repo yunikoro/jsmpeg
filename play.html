@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- 清除缓存 -->
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <!-- 灰色半透明 -->
+    <title>jsmpeg</title>
+    <style>
+      #video-canvas {
+        width: 100%;
+        height: 80vh;
+        object-fit: contain;
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="video-canvas"></canvas>
+    <div><progress id="prog" max="35"></progress>:loadProcess</div>
+    <div><progress id="played" max="35"></progress>:played</div>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <button id="stop">Stop</button>
+    <button id="playon">Play on</button>
+    <input id="sec" type="number" />sec
+    <script type="text/javascript" src="dist/jsmpeg-fake.js"></script>
+    <script>
+      var url =
+        "https://yun.duiba.com.cn/kjy/video/20200608/93f1b41336a8b7a442dbf1c29c6bbc5644ee4632278bd699ee10e96940c5517daa2c7177c487a3eb15cd82474c6871eaf2ff30d248f46a2f2dd54c0c0bab3344.ts";
+      var options = {
+        autoplay: false,
+        chunkSize: 1024 * 1024,
+        controls: false,
+        decodeFirstFrame: true,
+        disableGl: false,
+        disableWebAssembly: false,
+        fill: true,
+        language: "zh-CN",
+        loaded: true,
+        loop: false,
+        muted: false,
+        onVideoDecode(decoder) {
+          const { timestamps, frameRate } = decoder;
+          const loadTime = timestamps.length / frameRate;
+          // console.log(`loadTime: ${loadTime}, FrameRate: ${frameRate}`);
+          progPro.value = loadTime;
+          playedPro.value = player.currentTime;
+        },
+      };
+      var Player = window.JSMpeg.Player;
+      var playBtn = document.querySelector("#play");
+      var pauseBtn = document.querySelector("#pause");
+      var stopBtn = document.querySelector("#stop");
+      var progPro = document.querySelector("#prog");
+      var playedPro = document.querySelector("#played");
+      var secIpt = document.querySelector("#sec");
+      var playonBtn = document.querySelector("#playon");
+
+      var player = new Player(url, {
+        ...options,
+        canvas: document.querySelector("#video-canvas"),
+      });
+
+      playBtn.onclick = function () {
+        player.play();
+      };
+      pauseBtn.onclick = function () {
+        player.pause();
+      };
+      stopBtn.onclick = function () {
+        player.stop();
+      };
+      playonBtn.onclick = function () {
+        const sec = secIpt.value;
+        player.setCurrentTime(parseFloat(sec));
+        player.play();
+      };
+    </script>
+  </body>
+</html>
